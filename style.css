@@ -1,0 +1,19 @@
+/*  TODO: make Total Monthly Cost red bg if over $20,000  */
+
+header {
+  background-color: var(--bs-secondary);
+  color: var(--bs-gray-100);
+  margin-top: 0;
+}
+
+table {
+  table-layout: auto;
+  width: 100%;
+  /* word-break: normal; */
+  white-space: nowrap;
+}
+
+#tableContainer {
+  overflow-x: auto;
+  max-width: 720px;
+}

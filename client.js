@@ -13,35 +13,34 @@ function readyNow() {
 // TODO: function to collect input values and add to employee object array
 // collects employee first name, last name, ID number, job title, annual salary
 function submitEmployeeInfo() {
-  // gather inputs and save to object
+  // gather inputs and save to variables
   let firstName = $("#firstNameInput").val();
   let lastName = $("#lastNameInput").val();
   let idNumber = $("#idInput").val();
   let jobTitle = $("#titleInput").val();
   let annualSalary = Number($("#salaryInput").val());
-  // let employee = {
-  //   firstName: firstName,
-  //   lastName: lastName,
-  //   idNumber: idNumber,
-  //   jobTitle: jobTitle,
-  //   annualSalary: annualSalary,
-  // };
-  // push object to array
-  // employees.push(employee);
+  // create an employee JQ tr object to be added to the DOM
   let entry = $(`
   <tr>
-    <td>${firstName}</td>
-    <td>${lastName}</td>
-    <td>${idNumber}</td>
-    <td>${jobTitle}</td>
-    <td>${annualSalary}</td>
-    <td><button type="button" class="deleteBtn btn btn-danger">Delete</button></td>
+    <td class="firstNameTD">${firstName}</td>
+    <td class="lastNameTD">${lastName}</td>
+    <td class="idNumberTD">${idNumber}</td>
+    <td class="jobTitleTD">${jobTitle}</td>
+    <td class="annualSalaryTD">${annualSalary}</td>
+    <td class="deleteTD"><button type="button" class="deleteBtn btn btn-danger">Delete</button></td>
   </tr>
   `);
-  // attach salary data to entry
-  entry.data("annualSalary", `${annualSalary}`);
-  console.log(entry);
-  // append the employee entry
+  // attatch data
+  for (let td of entry.children()) {
+    if ($(td).attr("class") !== "deleteTD") {
+      let classString = `${$(td).attr("class")}`;
+      let string = classString.slice(0, -2);
+      $(td).data(string, $(td).text());
+      console.log($(td).data(string));
+    }
+  }
+
+  // append the employee entry to the table body
   $("tbody").append(entry);
   // reset input values
   $("#firstNameInput").val("");
@@ -49,47 +48,27 @@ function submitEmployeeInfo() {
   $("#idInput").val("");
   $("#titleInput").val("");
   $("#salaryInput").val("");
-  // pass the employee object into the display function
-  // displayEmployee(employee);
-  calcMonthlyCost(annualSalary);
+  // pass the employee's annualSalary to the calcMonthlyCost function
+  calcMonthlyCost(Number(annualSalary));
 }
 
-// TODO: function to display employee info in table
-// function displayEmployee(employee) {
-//   // declare HTML to be added to DOM
-//   let entry = $(`
-//   <tr>
-//     <td>${employee.firstName}</td>
-//     <td>${employee.lastName}</td>
-//     <td>${employee.idNumber}</td>
-//     <td>${employee.jobTitle}</td>
-//     <td>${employee.annualSalary}</td>
-//     <td><button type="button" class="deleteBtn btn btn-danger">Delete</button></td>
-//   </tr>
-//   `);
-//   // attach salary data to entry
-//   entry.data("annualSalary", `${employee.annualSalary}`);
-//   console.log(entry);
-//   // append the employee entry
-//   $("tbody").append(entry);
-// }
 // TODO: function to calculate totalMonthlyCost - if greater than 20K, red background
 function calcMonthlyCost(salary) {
-  // add up annualSalary of all employees
-  // totalMonthlyCost = employees.reduce(function (
-  //   previousValue,
-  //   currentValue
-  // ) {
-  //   return previousValue + currentValue.annualSalary;
-  // },
-  // 0);
-  totalMonthlyCost += salary;
-  // add to DOM
+  // take the passed in employee's annualSalary, convert it to monthly, and add it to totalMonthlyCost
+  totalMonthlyCost += salary / 12;
+  // add totalMonthlyCost to DOM
   $("#totalCostOutput").text(totalMonthlyCost);
 }
 // TODO: function to delete employee entry from table
 function deleteEmployee() {
-  let salaryToSubtract = 0 - Number($(this).parents("tr").data("annualSalary"));
+  // access the salary data of the salary td of the deleted tr and make it negative
+  let salaryToSubtract =
+    0 - $(this).parents("tr").children(".annualSalaryTD").data("annualSalary");
+  console.log(
+    $(this).parents("tr").children(".annualSalaryTD").data("annualSalary")
+  );
+  // remove the employee's entry from the DOM
   $(this).parents("tr").remove();
+  // recalculate totalMonthlyCost
   calcMonthlyCost(salaryToSubtract);
 }
