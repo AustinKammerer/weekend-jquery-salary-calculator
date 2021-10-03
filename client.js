@@ -34,6 +34,7 @@ function submitEmployeeInfo() {
     <td class="deleteTD"><button type="button" class="deleteBtn btn btn-danger">Delete</button></td>
   </tr>
   `);
+
   // attatch data to each td (besides td containing delete button)
   for (let td of entry.children()) {
     if ($(td).attr("class") !== "deleteTD") {

@@ -13,11 +13,11 @@
 </head>
 
 <body>
-    <header class="container-fluid py-2">
+    <header class="container-fluid py-2 mb-2">
         <h1 class="display-3 text-center m-0">Salary Calculator</h1>
     </header>
 
-    <div id="inputContainer" class="container-lg">
+    <div id="inputContainer" class="container-lg mb-2">
         <div class="row">
             <p class="col-auto display-6">Add Employee</p>
         </div>
@@ -49,7 +49,7 @@
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class='align-middle'>
                         <tr>
                             <td class="firstNameTD">example</td>
                             <td class="lastNameTD">person</td>
@@ -60,6 +60,11 @@
                             </td>
                         </tr>
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="6"></td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>
@@ -67,7 +72,7 @@
     <div id="totalCostContainer" class="container-lg">
         <div class="row justify-content-end">
             <p class="col display-6 text-end">Total Monthly Costs: </p>
-            <p class="col-auto display-6 text-end" id="totalCostOutput">$0.00</p>
+            <p class="col-auto display-6 text-end me-3" id="totalCostOutput">$0.00</p>
         </div>
     </div>
 
