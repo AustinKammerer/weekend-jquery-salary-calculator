@@ -2,6 +2,7 @@ $(readyNow);
 // TODO: declare array to hold employee objects
 // let employees = [];
 let totalMonthlyCost = 0;
+let MONTHLY_SOFT_MAX = 20000;
 
 function readyNow() {
   // TODO: add click listener to submitBtn
@@ -26,7 +27,7 @@ function submitEmployeeInfo() {
     <td class="lastNameTD">${lastName}</td>
     <td class="idNumberTD">${idNumber}</td>
     <td class="jobTitleTD">${jobTitle}</td>
-    <td class="annualSalaryTD">${annualSalary}</td>
+    <td class="annualSalaryTD">${formatCurrencyTrimmed(annualSalary)}</td>
     <td class="deleteTD"><button type="button" class="deleteBtn btn btn-danger">Delete</button></td>
   </tr>
   `);
@@ -57,13 +58,24 @@ function calcMonthlyCost(salary) {
   // take the passed in employee's annualSalary, convert it to monthly, and add it to totalMonthlyCost
   totalMonthlyCost += salary / 12;
   // add totalMonthlyCost to DOM
-  $("#totalCostOutput").text(totalMonthlyCost);
+  $("#totalCostOutput").text(formatCurrency(totalMonthlyCost));
+  $("#totalCostOutput").toggleClass(
+    "high-cost",
+    totalMonthlyCost > MONTHLY_SOFT_MAX
+  );
 }
 // TODO: function to delete employee entry from table
 function deleteEmployee() {
   // access the salary data of the salary td of the deleted tr and make it negative
   let salaryToSubtract =
-    0 - $(this).parents("tr").children(".annualSalaryTD").data("annualSalary");
+    0 -
+    $(this)
+      .parents("tr")
+      .children(".annualSalaryTD")
+      .data("annualSalary")
+      .slice(1)
+      .split(",")
+      .join("");
   console.log(
     $(this).parents("tr").children(".annualSalaryTD").data("annualSalary")
   );
@@ -71,4 +83,21 @@ function deleteEmployee() {
   $(this).parents("tr").remove();
   // recalculate totalMonthlyCost
   calcMonthlyCost(salaryToSubtract);
+}
+
+// functions to format curreny numbers
+function formatCurrencyTrimmed(number) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  }).format(number);
+}
+function formatCurrency(number) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 2,
+  }).format(number);
 }

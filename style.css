@@ -6,14 +6,13 @@ header {
   margin-top: 0;
 }
 
-table {
-  table-layout: auto;
-  width: 100%;
-  /* word-break: normal; */
-  white-space: nowrap;
+#employeeTable td,
+#employeeTable th {
+  font-size: 1.25rem;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
-#tableContainer {
-  overflow-x: auto;
-  max-width: 720px;
+.high-cost {
+  background-color: rgb(255, 78, 78);
 }

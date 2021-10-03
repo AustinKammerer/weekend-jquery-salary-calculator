@@ -17,14 +17,14 @@
         <h1 class="display-3 text-center m-0">Salary Calculator</h1>
     </header>
 
-    <div id="inputContainer" class="container-md">
+    <div id="inputContainer" class="container-lg">
         <div class="row">
-            <p class="display-6">Add Employee</p>
+            <p class="col-auto display-6">Add Employee</p>
         </div>
-        <div class="row">
-            <div class="col">
-                <input class="input mb-1" id="firstNameInput" type="text" placeholder="First Name">
-                <input class="input mb-1" id="lastNameInput" type="text" placeholder="Last Name">
+        <div class="row justify-content-start text-wrap">
+            <div class="col-auto align-self-center">
+                <input class="input mb-1" id="firstNameInput" type="text" placeholder="First Name" size="17">
+                <input class="input mb-1" id="lastNameInput" type="text" placeholder="Last Name" size="17">
                 <input class="input mb-1" id="idInput" type="text" placeholder="ID" size="12">
                 <input class="input mb-1" id="titleInput" type="text" placeholder="Title">
                 <input class="input mb-1" id="salaryInput" type="text" placeholder="Annual Salary" size="15">
@@ -34,15 +34,13 @@
             </div>
 
         </div>
-
-
     </div>
-    <div class="container-md">
+    <div id="tableContainer" class="container-lg mx-auto">
         <div class="row justify-content-center">
-            <div id="tableContainer" class="col">
+            <div id="tableCol" class="col table-responsive">
                 <table id="employeeTable" class="table table-striped table-hover">
                     <thead>
-                        <tr>
+                        <tr class="text-wrap">
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>ID</th>
@@ -65,9 +63,11 @@
                 </table>
             </div>
         </div>
-
-        <div class="row" id="totalCostContainer">
-            <p class="col display-6">Total Monthly Costs: $<span id="totalCostOutput">0</span> </p>
+    </div>
+    <div id="totalCostContainer" class="container-lg">
+        <div class="row justify-content-end">
+            <p class="col display-6 text-end">Total Monthly Costs: </p>
+            <p class="col-auto display-6" id="totalCostOutput">$0.00</p>
         </div>
     </div>
 
