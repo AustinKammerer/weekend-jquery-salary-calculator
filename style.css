@@ -16,3 +16,7 @@ header {
 .high-cost {
   background-color: rgb(255, 78, 78);
 }
+
+#totalCostOutput {
+  min-width: 215px;
+}

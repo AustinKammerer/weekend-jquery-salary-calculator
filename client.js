@@ -1,7 +1,9 @@
 $(readyNow);
-// TODO: declare array to hold employee objects
+// TODO: declare array to hold employee objects UPDATE: I ended up using methods that do not require objects for data storage
 // let employees = [];
+// inital monthly cost
 let totalMonthlyCost = 0;
+// max monthly cost before element turns red
 let MONTHLY_SOFT_MAX = 20000;
 
 function readyNow() {
@@ -21,6 +23,7 @@ function submitEmployeeInfo() {
   let jobTitle = $("#titleInput").val();
   let annualSalary = Number($("#salaryInput").val());
   // create an employee JQ tr object to be added to the DOM
+  // each td will have a class corresponding to the data it holds
   let entry = $(`
   <tr>
     <td class="firstNameTD">${firstName}</td>
@@ -31,13 +34,21 @@ function submitEmployeeInfo() {
     <td class="deleteTD"><button type="button" class="deleteBtn btn btn-danger">Delete</button></td>
   </tr>
   `);
-  // attatch data
+  // attatch data to each td (besides td containing delete button)
   for (let td of entry.children()) {
     if ($(td).attr("class") !== "deleteTD") {
+      // set the variable string equal to the td's class and slice off 'TD'
       let classString = `${$(td).attr("class")}`;
       let string = classString.slice(0, -2);
-      $(td).data(string, $(td).text());
-      console.log($(td).data(string));
+      // set the data value to the text of the td
+      let value = $(td).text();
+      // convert the text of the annualSalary td to a number for calculations
+      if (string === "annualSalary") {
+        value = Number(value.slice(1).split(",").join(""));
+      }
+      // attach the data point using the string and value variables
+      $(td).data(string, value);
+      // console.log($(td).data(string));
     }
   }
 
@@ -59,6 +70,7 @@ function calcMonthlyCost(salary) {
   totalMonthlyCost += salary / 12;
   // add totalMonthlyCost to DOM
   $("#totalCostOutput").text(formatCurrency(totalMonthlyCost));
+  // toggle the high-cost class (red color) depending on totalMonthlyCost
   $("#totalCostOutput").toggleClass(
     "high-cost",
     totalMonthlyCost > MONTHLY_SOFT_MAX
@@ -68,24 +80,15 @@ function calcMonthlyCost(salary) {
 function deleteEmployee() {
   // access the salary data of the salary td of the deleted tr and make it negative
   let salaryToSubtract =
-    0 -
-    $(this)
-      .parents("tr")
-      .children(".annualSalaryTD")
-      .data("annualSalary")
-      .slice(1)
-      .split(",")
-      .join("");
-  console.log(
-    $(this).parents("tr").children(".annualSalaryTD").data("annualSalary")
-  );
+    0 - $(this).parents("tr").children(".annualSalaryTD").data("annualSalary");
+  // console.log(salaryNum);
   // remove the employee's entry from the DOM
   $(this).parents("tr").remove();
   // recalculate totalMonthlyCost
   calcMonthlyCost(salaryToSubtract);
 }
 
-// functions to format curreny numbers
+// functions to format curreny numbers - src: https://stackoverflow.com/questions/149055/how-to-format-numbers-as-currency-strings
 function formatCurrencyTrimmed(number) {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
