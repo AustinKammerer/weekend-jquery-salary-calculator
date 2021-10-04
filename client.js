@@ -27,9 +27,10 @@ function submitEmployeeInfo() {
   let idNumber = $("#idInput").val();
   let jobTitle = $("#titleInput").val();
   let annualSalary = Number($("#salaryInput").val());
-  // create an employee JQ tr object to be added to the DOM
-  // each td will have a class corresponding to the data it holds
-  let entry = $(`
+  if (!isNaN(annualSalary)) {
+    // create an employee JQ tr object to be added to the DOM
+    // each td will have a class corresponding to the data it holds
+    let entry = $(`
   <tr>
     <td class="firstNameTD">${firstName}</td>
     <td class="lastNameTD">${lastName}</td>
@@ -40,34 +41,37 @@ function submitEmployeeInfo() {
   </tr>
   `);
 
-  // attatch data to each td (besides td containing delete button)
-  for (let td of entry.children()) {
-    if ($(td).attr("class") !== "deleteTD") {
-      // set the variable string equal to the td's class and slice off 'TD'
-      let classString = `${$(td).attr("class")}`;
-      let string = classString.slice(0, -2);
-      // set the data value to the text of the td
-      let value = $(td).text();
-      // convert the text of the annualSalary td to a number for calculations
-      if (string === "annualSalary") {
-        value = Number(value.slice(1).split(",").join(""));
+    // attatch data to each td (besides td containing delete button)
+    for (let td of entry.children()) {
+      if ($(td).attr("class") !== "deleteTD") {
+        // set the variable string equal to the td's class and slice off 'TD'
+        let classString = `${$(td).attr("class")}`;
+        let string = classString.slice(0, -2);
+        // set the data value to the text of the td
+        let value = $(td).text();
+        // convert the text of the annualSalary td to a number for calculations
+        if (string === "annualSalary") {
+          value = Number(value.slice(1).split(",").join(""));
+        }
+        // attach the data point using the string and value variables
+        $(td).data(string, value);
+        // console.log($(td).data(string));
       }
-      // attach the data point using the string and value variables
-      $(td).data(string, value);
-      // console.log($(td).data(string));
     }
+    // append the employee entry to the table body
+    $("tbody").append(entry);
+    // pass the employee's annualSalary to the calcMonthlyCost function
+    calcMonthlyCost(Number(annualSalary));
+  } else {
+    alert("Please enter a valid number");
   }
 
-  // append the employee entry to the table body
-  $("tbody").append(entry);
   // reset input values
   $("#firstNameInput").val("");
   $("#lastNameInput").val("");
   $("#idInput").val("");
   $("#titleInput").val("");
   $("#salaryInput").val("");
-  // pass the employee's annualSalary to the calcMonthlyCost function
-  calcMonthlyCost(Number(annualSalary));
 }
 
 // TODO: function to calculate totalMonthlyCost - if greater than 20K, red background
