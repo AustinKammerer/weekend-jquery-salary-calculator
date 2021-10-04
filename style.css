@@ -20,3 +20,10 @@ header {
 #totalCostOutput {
   min-width: 215px;
 }
+
+#firstName:hover,
+#lastName:hover,
+#idNumber:hover,
+#annualSalary:hover {
+  cursor: pointer;
+}
