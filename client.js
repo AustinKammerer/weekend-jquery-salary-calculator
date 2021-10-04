@@ -62,16 +62,18 @@ function submitEmployeeInfo() {
     $("tbody").append(entry);
     // pass the employee's annualSalary to the calcMonthlyCost function
     calcMonthlyCost(Number(annualSalary));
-  } else {
-    alert("Please enter a valid number");
+    // reset input values
+    $("#firstNameInput").val("");
+    $("#lastNameInput").val("");
+    $("#idInput").val("");
+    $("#titleInput").val("");
+    $("#salaryInput").val("");
   }
-
-  // reset input values
-  $("#firstNameInput").val("");
-  $("#lastNameInput").val("");
-  $("#idInput").val("");
-  $("#titleInput").val("");
-  $("#salaryInput").val("");
+  // if salaryInput is not a number:
+  else {
+    alert("Please enter a valid number");
+    $("#salaryInput").val("");
+  }
 }
 
 // TODO: function to calculate totalMonthlyCost - if greater than 20K, red background
