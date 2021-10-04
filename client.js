@@ -12,7 +12,10 @@ function readyNow() {
   // TODO: add click listener to future deleteBtn (dynamic)
   $("tbody").on("click", ".deleteBtn", deleteEmployee);
   // TODO: add click listeners to th elements for sortTable
-  $("#firstName, #lastName, #idNumber, #annualSalary").on("click", sortTable);
+  $("#firstName, #lastName, #idNumber, #jobTitle, #annualSalary").on(
+    "click",
+    sortTable
+  );
 }
 
 // TODO: function to collect input values and add to employee object array

@@ -24,6 +24,7 @@ header {
 #firstName:hover,
 #lastName:hover,
 #idNumber:hover,
+#jobTitle:hover,
 #annualSalary:hover {
   cursor: pointer;
 }
